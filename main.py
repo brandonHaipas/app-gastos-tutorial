@@ -52,13 +52,36 @@ while True:
         for gasto in filtrados:
             print(gasto_a_string(gasto) + '\n')
     elif opcion == '3':
-        pass
+        categoria = input("Ingresa la categoria a filtrar :")
+        print("\n")
+        print(f'gastos de categoria {categoria}\n')
+        print("indice   descripcion   categoria   fecha   monto\n")
+        print("------------------------------------------------\n")
+        filtrados = buscar_por_categoria('gastos.csv', categoria)
+        for gasto in filtrados:
+            print(gasto_a_string(gasto) + '\n')
     elif opcion == '4':
         pass
     elif opcion == '5':
-        pass
+        print("Ingrese el indice del registro a modificar: \n")
+        index = input("indice: ")
+        descripcion = input('Breve descripcion:\n')
+        cat = input("categoria:\n")
+        dia = input('dia:\n')
+        mes = input('mes:\n')
+        anho = input('año:\n')
+        costo = input('costo:\n')
+        
+        fecha = '-'.join([dia,mes,anho])#dia-mes-anho
+        actualizar_gasto(index, descripcion, cat , fecha , costo, 'gastos.csv')
+        
     elif opcion == '6':
         index = input("indice del gasto a eliminar: ")
         eliminar_gasto(index, 'gastos.csv')
     elif opcion == '7':
+        break
+    cont = input("Continuar? (Y/n): ")
+    if cont == 'Y' or cont == 'y':
+        continue
+    elif cont == 'n' or cont =='N':
         break

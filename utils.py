@@ -24,7 +24,6 @@ def crear_lista_gastos(file):
             lines = output.split(sep='\n')
             gastos_list = []
             for line in lines:
-                print("linea",line)
                 if line == '':
                     break
                 
@@ -84,3 +83,25 @@ def eliminar_gasto(index, file):
            gastos_file.write(gastos_string)
     except Exception as e:
         print(f"Error {e}") 
+        
+def actualizar_gasto(index, descripcion, cat, fecha, monto, file):
+    num_index = int(index)
+    lista_gastos = crear_lista_gastos(file)
+    lista_gastos[num_index] = {'index':index, 'descripcion':descripcion, 'cat':cat, 'fecha':datetime.strptime(fecha, '%d-%m-%Y'), 'costo':monto}
+    try:
+        with open(file, 'w') as gastos_file:
+           gastos_string =  ""
+           for elem in lista_gastos:
+               gastos_string+= gasto_a_string(elem) + '\n'
+           gastos_file.write(gastos_string)
+    except Exception as e:
+        print(f"Error {e}") 
+        
+def estadisticas_generales(file):
+    lista_gastos = crear_lista_gastos(file)
+    total_gastos = len(lista_gastos)
+    categorias_raw = [gasto['cat'] for gasto in lista_gastos]
+    categorias = list(set(categorias_raw))
+    cat_dict = {}
+    for cat in categorias:
+        cat_dict[cat] = buscar_por_categoria(file, cat)
